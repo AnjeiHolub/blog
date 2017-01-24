@@ -13,14 +13,28 @@
       this.render(post, this.tpl.innerHTML, this.container);
       this.btnAddComment = this.container.querySelector('.btn-add-comment');
       this.btnAddComment.addEventListener('click', () => {
-        this.sendAddCommentEvent(post);
+        let comment = document.forms['add-comment-form'].msg.value;
+        this.sendAddCommentEvent(post, comment);
+      });
+      this.btnBack = this.container.querySelector('.btn-back');
+      this.btnBack.addEventListener('click', () => {
+        this.backAllPosts();
       })
     }
 
-    sendAddCommentEvent (post) {
+    sendAddCommentEvent (post, comment) {
       document.dispatchEvent(new CustomEvent(
         'add-comment',
-        {detail: post}
+        {detail: {
+          post: post,
+          comment: comment
+        }}
+      ));
+    }
+
+    backAllPosts () {
+      document.dispatchEvent(new CustomEvent(
+        'back-post'
       ));
     }
   }

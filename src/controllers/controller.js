@@ -33,10 +33,14 @@
       })
 
       document.addEventListener('add-comment', (event) => {
-        let post = event.detail;
-        post.addComment(new Comment({msg: "hi"}));
+        let post = event.detail.post;
+        post.addComment(new Comment({msg: event.detail.comment}));
         postsService.save(viewPostDetail.preRender(post));
       });
+
+      document.addEventListener('back-post', () => {
+        this.fetchPosts();
+      })
     }
 
     getPostById (id) {
@@ -47,6 +51,7 @@
     fetchPosts () {
       postsService.fetch(viewPostsList.preRender.bind(viewPostsList));
     }
+
   }
 
   app.controllers.PostsController = PostsController;
